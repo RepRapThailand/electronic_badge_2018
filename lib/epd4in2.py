@@ -113,6 +113,7 @@ class EPD:
         self.busy_pin = epdif.BUSY_PIN;
         self.width = EPD_WIDTH;
         self.height = EPD_HEIGHT;
+        self.pinstate = {}
 
     lut_vcom0 = [
         0x00, 0x17, 0x00, 0x00, 0x00, 0x02,
@@ -124,6 +125,16 @@ class EPD:
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
     ]
 
+    lut_vcom0_quick = [
+            0x00, 0x0E, 0x00, 0x00, 0x00, 0x01,                                                                                
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00,                                                                                
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00,                                                                                
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00,                                                                                
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00,                                                                                
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00,                                                                                
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,                                                                    
+            ]
+
     lut_ww = [
         0x40, 0x17, 0x00, 0x00, 0x00, 0x02,
         0x90, 0x17, 0x17, 0x00, 0x00, 0x02,
@@ -131,6 +142,16 @@ class EPD:
         0xA0, 0x0E, 0x0E, 0x00, 0x00, 0x02,
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    ]
+
+    lut_ww_quick = [
+        0xA0, 0x0E, 0x00, 0x00, 0x00, 0x01,                                                                                                                                                                                                         
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00,                                                                                                                                                                                                         
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00,                                                                                                                                                                                                         
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00,                                                                                                                                                                                                         
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00,                                                                                                                                                                                                         
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00,                                                                                                                                                                                                         
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
     ]
 
@@ -144,6 +165,16 @@ class EPD:
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
     ]
 
+    lut_bw_quick =[
+            0xA0, 0x0E, 0x00, 0x00, 0x00, 0x01,
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    ]
+
     lut_bb = [
         0x80, 0x17, 0x00, 0x00, 0x00, 0x02,
         0x90, 0x17, 0x17, 0x00, 0x00, 0x02,
@@ -152,6 +183,17 @@ class EPD:
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    ]
+
+
+    lut_bb_quick = [
+    0x50, 0x0E, 0x00, 0x00, 0x00, 0x01,                                                                                                                                                                                                         
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
     ]
 
     lut_wb = [
@@ -164,8 +206,20 @@ class EPD:
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
     ]
 
+    lut_wb_quick = [                                                                                                                                                                                                       
+            0x50, 0x0E, 0x00, 0x00, 0x00, 0x01,                                                                                                                                                                                                         
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00,                                                                                                                                                                                                         
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00,                                                                                                                                                                                                         
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00,                                                                                                                                                                                                         
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00,                                                                                                                                                                                                         
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00,                                                                                                                                                                                                         
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00,                                                                                                                                                                                                         
+    ]
+
     def digital_write(self, pin, value):
-        epdif.epd_digital_write(pin, value)
+        if pin not in self.pinstate or self.pinstate[pin] != value:
+            self.pinstate[pin] = pin
+            epdif.epd_digital_write(pin, value)
 
     def digital_read(self, pin):
         return epdif.epd_digital_read(pin)
@@ -210,7 +264,7 @@ class EPD:
 
     def wait_until_idle(self):
         while (self.digital_read(self.busy_pin) == 0):  # 0: busy, 1: idle
-            self.delay_ms(100)
+            self.delay_ms(1)
 
     def reset(self):
         self.digital_write(self.reset_pin, GPIO.LOW)  # module reset
@@ -239,11 +293,34 @@ class EPD:
         for count in range(0, 42):
             self.send_data(self.lut_wb[count])
 
+    def set_lut_quick(self):
+        self.send_command(LUT_FOR_VCOM)  # vcom
+        for count in range(0, 44):
+            self.send_data(self.lut_vcom0_quick[count])
+
+        self.send_command(LUT_WHITE_TO_WHITE)  # ww --
+        for count in range(0, 42):
+            self.send_data(self.lut_ww_quick[count])
+
+        self.send_command(LUT_BLACK_TO_WHITE)  # bw r
+        for count in range(0, 42):
+            self.send_data(self.lut_bw_quick[count])
+
+        self.send_command(LUT_WHITE_TO_BLACK)  # wb w
+        for count in range(0, 42):
+            self.send_data(self.lut_bb_quick[count])
+
+        self.send_command(LUT_BLACK_TO_BLACK)  # bb b
+        for count in range(0, 42):
+            self.send_data(self.lut_wb_quick[count])
+
     def get_frame_buffer(self, image):
         buf = [0] * int(self.width * self.height / 8)
         # Set buffer to value of Python Imaging Library image.
         # Image must be in mode 1.
-        image_monocolor = image.convert('1')
+        image_monocolor = image
+        if image.mode != '1':
+            image_monocolor = image.convert('1')
         imwidth, imheight = image_monocolor.size
         if imwidth != self.width or imheight != self.height:
             raise ValueError('Image must be same dimensions as display \
@@ -268,22 +345,47 @@ class EPD:
         self.send_data(0x12)
 
         self.send_command(VCOM_AND_DATA_INTERVAL_SETTING)
-        self.send_command(0x97)  # VBDF 17|D7 VBDW 97  VBDB 57  VBDF F7  VBDW 77  VBDB 37  VBDR B7
+        self.send_command(0b10011111)  # VBDF 17|D7 VBDW 97  VBDB 57  VBDF F7  VBDW 77  VBDB 37  VBDR B7
 
         if (frame_buffer != None):
             self.send_command(DATA_START_TRANSMISSION_1)
             for i in range(0, int(self.width * self.height / 8)):
-                self.send_data(0xFF)  # bit set: white, bit reset: black
+                self.send_data(frame_buffer[i])
             self.delay_ms(2)
             self.send_command(DATA_START_TRANSMISSION_2)
             for i in range(0, int(self.width * self.height / 8)):
                 self.send_data(frame_buffer[i])
-            self.delay_ms(2)
+            self.delay_ms(1)
 
         self.set_lut()
 
         self.send_command(DISPLAY_REFRESH)
-        self.delay_ms(100)
+        self.delay_ms(10)
+        self.wait_until_idle()
+
+    def set_partial_window(self, frame_buffer, x, y, w, l, dtm):
+        self.send_command(PARTIAL_IN)
+        self.send_command(PARTIAL_WINDOW)
+        self.send_data(x >> 8)
+        self.send_data(x & 0xf8)
+        self.send_data(((x & 0xf8) + w  - 1) >> 8)
+        self.send_data(((x & 0xf8) + w  - 1) | 0x07)
+        self.send_data(y >> 8)
+        self.send_data(y & 0xff)
+        self.send_data((y + l - 1) >> 8)
+        self.send_data((y + l - 1) & 0xff)
+        self.send_data(0x01)
+        self.send_command(DATA_START_TRANSMISSION_1)
+        for i in range(0, int(w / 8 * l)):
+            self.send_data(frame_buffer[i])
+        self.send_command(DATA_START_TRANSMISSION_2)
+        for i in range(0, int(w / 8 * l)):
+            self.send_data(frame_buffer[i])
+        self.send_command(PARTIAL_OUT)
+        self.set_lut_quick()
+
+        self.send_command(DISPLAY_REFRESH)
+        self.delay_ms(10)
         self.wait_until_idle()
 
     ##

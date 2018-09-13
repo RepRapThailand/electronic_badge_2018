@@ -107,8 +107,12 @@ class Nafuda:
 
         self.draw_image_buffer(image_buffer, orientation)
 
-    def draw_image_buffer(self, image_buffer, orientation=0):
+    def generate_image_buffer_with_file(self, path, orientation=0):
+        image_buffer = Image.open(path)
 
+        return self.generate_image_buffer(image_buffer, orientation)
+
+    def generate_image_buffer(self, image_buffer, orientation=0):
         # remove Alpha
         if len(image_buffer.split()) > 3:
             # make blank image
@@ -152,7 +156,19 @@ class Nafuda:
             # swap
             image_buffer = _image_buffer
 
-        self.epd.display_frame(self.epd.get_frame_buffer(image_buffer))
+        return image_buffer
+
+    def draw_frame_buffer(self, frame_buffer, orientation=0):
+#        self.epd.display_frame(frame_buffer)
+        self.epd.set_partial_window(frame_buffer, 0, 0, 400, 300, 2)
+        self.epd.set_partial_window(frame_buffer, 0, 0, 400, 300, 2)
+        self.epd.set_partial_window(frame_buffer, 0, 0, 400, 300, 2)
+
+    def draw_image_buffer(self, image_buffer, orientation=0):
+        image_buffer = self.generate_image_buffer(image_buffer, orientation)
+#        self.epd.display_frame(self.epd.get_frame_buffer(image_buffer))
+        self.epd.set_partial_window(self.epd.get_frame_buffer(image_buffer), 0, 0, 400, 300, 2)
+        self.epd.set_partial_window(self.epd.get_frame_buffer(image_buffer), 0, 0, 400, 300, 2)
 
     @staticmethod
     def get_offset_for_centering(canvas_size, img_size):
