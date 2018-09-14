@@ -84,8 +84,12 @@ class PartialText:
         self.y = y
         self.epd = epd
         self.image = image
+        self.prev_text = ""
 
     def update(self, text):
+        if text == self.prev_text:
+            return
+
         draw = ImageDraw.Draw(self.image)
 
         size = draw.textsize(text, font=font48)
