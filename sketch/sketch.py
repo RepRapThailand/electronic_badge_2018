@@ -16,6 +16,7 @@ config = configparser.ConfigParser()
 config.read("metrics.ini")
 
 def promq(query):
+    # return random.randrange(20, 200)
     url = config['prometheus']['endpoint'] + '/v1/query?' + urllib.parse.urlencode({ 'query': query })
 
     userpass = config['prometheus']['user'] + ':' + config['prometheus']['pass']
