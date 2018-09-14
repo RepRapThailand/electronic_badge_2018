@@ -1,2 +1,5 @@
 __pycache__
 official_lib
+*.ini
+*.pyc
+*.log

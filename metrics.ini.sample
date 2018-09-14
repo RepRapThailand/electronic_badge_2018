@@ -1,0 +1,5 @@
+[prometheus]
+endpoint = https://prometheus.lab.lowreal.net/api
+user = foo
+pass = bar
+
